@@ -55,6 +55,7 @@ export class GameService {
 
   dropBall(): void {
     const currentState = this.gameState.value;
+    if (currentState.gameOver) return; // Prevent dropping ball if game is over
     this.gameState.next({
       ...currentState,
       isMoving: false,
