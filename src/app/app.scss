@@ -43,7 +43,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
   background-size: 100% 4px;
   pointer-events: none;
   z-index: 1;
@@ -57,7 +57,7 @@ body {
   width: 100%;
   height: 100%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  opacity: 0.01;
   pointer-events: none;
   z-index: 2;
 }
@@ -94,8 +94,8 @@ body {
   font-size: 2.5rem;
   font-weight: 900;
   font-family: 'Press Start 2P', cursive;
-  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
-  animation: logoGlow 2s ease-in-out infinite alternate;
+  text-shadow: 0 0 8px var(--neon-pink), 0 0 15px var(--neon-pink);
+  animation: logoGlow 4s ease-in-out infinite alternate;
   letter-spacing: 2px;
 }
 
@@ -106,9 +106,9 @@ body {
   right: 0;
   bottom: 0;
   background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
-  opacity: 0.3;
-  filter: blur(20px);
-  animation: glowPulse 3s ease-in-out infinite;
+  opacity: 0.2;
+  filter: blur(15px);
+  animation: glowPulse 4s ease-in-out infinite;
 }
 
 .header-decoration {
@@ -184,22 +184,22 @@ body {
 // Animations
 @keyframes logoGlow {
   0% {
-    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
+    text-shadow: 0 0 8px var(--neon-pink), 0 0 15px var(--neon-pink);
   }
   100% {
-    text-shadow: 0 0 15px var(--neon-pink), 0 0 25px var(--neon-pink), 0 0 35px var(--neon-pink);
+    text-shadow: 0 0 12px var(--neon-pink), 0 0 20px var(--neon-pink);
   }
 }
 
 @keyframes glowPulse {
   0%,
   100% {
-    opacity: 0.3;
+    opacity: 0.2;
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.1);
+    opacity: 0.4;
+    transform: scale(1.05);
   }
 }
 
@@ -209,7 +209,7 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.5;
   }
 }
 

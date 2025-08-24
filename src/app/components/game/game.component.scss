@@ -251,60 +251,77 @@ canvas {
   box-shadow: 0 0 30px rgba(255, 140, 0, 0.8);
 }
 
-.game-over {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-}
-
-.game-over-content {
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
-  border: 3px solid var(--neon-pink);
-  border-radius: 20px;
-  padding: 3rem;
+.game-over-notification {
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.15) 0%, rgba(0, 255, 255, 0.15) 100%);
+  border: 2px solid var(--neon-pink);
+  border-radius: 15px;
+  padding: 2rem;
   text-align: center;
-  box-shadow: 0 0 50px rgba(255, 0, 255, 0.5), inset 0 0 30px rgba(255, 0, 255, 0.1);
-  animation: gameOverPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3), inset 0 0 15px rgba(255, 0, 255, 0.05);
+  margin: 2rem 0;
+  animation: notificationSlide 0.5s ease-out;
+  position: relative;
+  z-index: 5;
 }
 
-@keyframes gameOverPulse {
-  0%,
-  100% {
-    transform: scale(1);
+@keyframes notificationSlide {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
   }
-  50% {
-    transform: scale(1.05);
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-.game-over-title {
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.notification-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--neon-pink);
-  text-shadow: 0 0 20px var(--neon-pink);
-  margin-bottom: 2rem;
+  text-shadow: 0 0 10px var(--neon-pink);
+  margin: 0;
   text-transform: uppercase;
 }
 
 .final-score {
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 5px var(--neon-yellow);
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 10px var(--neon-yellow);
 }
 
 .score-message {
   font-family: 'Orbitron', monospace;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--neon-green);
-  text-shadow: 0 0 10px var(--neon-green);
+  text-shadow: 0 0 5px var(--neon-green);
   font-weight: 700;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .leaderboard {
@@ -436,13 +453,21 @@ canvas {
     flex-direction: column;
   }
 
-  .game-over-content {
-    padding: 2rem;
+  .game-over-notification {
+    padding: 1.5rem;
     margin: 1rem;
   }
 
-  .game-over-title {
-    font-size: 1.5rem;
+  .notification-title {
+    font-size: 1.2rem;
+  }
+
+  .score-value {
+    font-size: 1.8rem;
+  }
+
+  .score-message {
+    font-size: 0.9rem;
   }
 }
 

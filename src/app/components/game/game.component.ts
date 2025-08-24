@@ -58,9 +58,9 @@ import { Subscription } from 'rxjs';
         </div>
       </div>
 
-      <div *ngIf="gameOver" class="game-over">
-        <div class="game-over-content">
-          <h2 class="game-over-title">GAME OVER!</h2>
+      <div *ngIf="gameOver" class="game-over-notification">
+        <div class="notification-content">
+          <h3 class="notification-title">GAME OVER!</h3>
           <div class="final-score">
             <div class="score-label">FINAL SCORE</div>
             <div class="score-value">{{ currentScore }}</div>
@@ -289,6 +289,9 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
 
   resetGame(): void {
     this.gameService.resetGame();
+    this.gameOver = false;
+    this.currentScore = 0;
+    this.canDrop = true;
   }
 
   private async saveScore(): Promise<void> {
@@ -319,5 +322,9 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     this.authService.logout().then(() => {
       this.router.navigate(['/login']);
     });
+  }
+
+  closeGameOver(): void {
+    this.gameOver = false;
   }
 }
