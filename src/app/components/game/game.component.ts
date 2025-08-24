@@ -14,43 +14,76 @@ import { Subscription } from 'rxjs';
     <div class="game-container">
       <div class="game-header">
         <div class="user-info">
-          <span>Welcome, {{ userEmail }}</span>
-          <button (click)="logout()" class="logout-btn">Logout</button>
+          <div class="user-badge">
+            <span class="user-label">PLAYER:</span>
+            <span class="user-email">{{ userEmail }}</span>
+          </div>
+          <button (click)="logout()" class="logout-btn">EXIT GAME</button>
         </div>
         <div class="score-info">
-          <span>Current Score: {{ currentScore }}</span>
-          <span>High Score: {{ highScore }}</span>
+          <div class="score-display">
+            <div class="score-label">SCORE</div>
+            <div class="score-value">{{ currentScore }}</div>
+          </div>
+          <div class="score-display">
+            <div class="score-label">HIGH SCORE</div>
+            <div class="score-value">{{ highScore }}</div>
+          </div>
         </div>
       </div>
 
       <div class="game-area">
-        <canvas #gameCanvas width="800" height="600"></canvas>
+        <div class="game-frame">
+          <div class="frame-border">
+            <canvas #gameCanvas width="800" height="600"></canvas>
+          </div>
+        </div>
 
         <div class="game-controls">
-          <button (click)="dropBall()" [disabled]="!canDrop || gameOver" class="drop-btn">
-            {{ canDrop ? 'Drop Ball' : 'Ball Dropped' }}
-          </button>
+          <div class="control-section">
+            <button
+              (click)="dropBall()"
+              [disabled]="!canDrop || gameOver"
+              class="control-btn drop-btn"
+            >
+              <span class="btn-text">{{ canDrop ? 'DROP BALL' : 'BALL DROPPED' }}</span>
+              <div class="btn-glow"></div>
+            </button>
 
-          <button (click)="resetGame()" [disabled]="!gameOver" class="reset-btn">New Game</button>
+            <button (click)="resetGame()" [disabled]="!gameOver" class="control-btn reset-btn">
+              <span class="btn-text">NEW GAME</span>
+              <div class="btn-glow"></div>
+            </button>
+          </div>
         </div>
       </div>
 
       <div *ngIf="gameOver" class="game-over">
-        <h2>Game Over!</h2>
-        <p>Final Score: {{ currentScore }}</p>
-        <p *ngIf="currentScore > 0">Great job! Your score has been saved.</p>
-        <p *ngIf="currentScore === 0">Try again to get a better score!</p>
+        <div class="game-over-content">
+          <h2 class="game-over-title">GAME OVER!</h2>
+          <div class="final-score">
+            <div class="score-label">FINAL SCORE</div>
+            <div class="score-value">{{ currentScore }}</div>
+          </div>
+          <p *ngIf="currentScore > 0" class="score-message">🏆 GREAT JOB! SCORE SAVED! 🏆</p>
+          <p *ngIf="currentScore === 0" class="score-message">💀 TRY AGAIN FOR BETTER SCORE! 💀</p>
+        </div>
       </div>
 
       <div class="leaderboard">
-        <h3>Your Recent Scores</h3>
+        <div class="leaderboard-header">
+          <h3>🏆 LEADERBOARD 🏆</h3>
+          <div class="leaderboard-decoration"></div>
+        </div>
         <div class="scores-list">
-          <div *ngFor="let score of userScores" class="score-item">
-            <span>{{ score.score }} points</span>
-            <span>{{ score.date | date : 'short' }}</span>
+          <div *ngFor="let score of userScores; let i = index" class="score-item">
+            <div class="score-rank">#{{ i + 1 }}</div>
+            <div class="score-points">{{ score.score }} PTS</div>
+            <div class="score-date">{{ score.date | date : 'MMM dd' }}</div>
           </div>
           <div *ngIf="userScores.length === 0" class="no-scores">
-            No scores yet. Play a game to see your results!
+            <div class="no-scores-icon">🎯</div>
+            <div class="no-scores-text">NO SCORES YET! PLAY TO SEE RESULTS!</div>
           </div>
         </div>
       </div>
@@ -148,46 +181,106 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     // Get current game state
     const state = this.gameService.getCurrentState();
 
-    // Draw background
-    ctx.fillStyle = '#f0f0f0';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw retro arcade background
+    this.drawArcadeBackground(ctx, canvas);
 
-    // Draw target (bottom center)
+    // Draw target with retro styling
+    this.drawRetroTarget(ctx, canvas);
+
+    // Draw ball with retro effects
+    this.drawRetroBall(ctx, canvas, state);
+  }
+
+  private drawArcadeBackground(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
+    // Grid pattern
+    ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
+
+    for (let x = 0; x < canvas.width; x += 40) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+
+    for (let y = 0; y < canvas.height; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+
+    // Center line
+    ctx.strokeStyle = 'rgba(255, 0, 255, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width * 0.5, 0);
+    ctx.lineTo(canvas.width * 0.5, canvas.height);
+    ctx.stroke();
+  }
+
+  private drawRetroTarget(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): void {
     const targetX = canvas.width * 0.5;
     const targetY = canvas.height * 0.9;
 
-    // Target outer circle
-    ctx.fillStyle = '#ff6b6b';
+    // Target outer ring with neon effect
+    ctx.fillStyle = '#ff00ff';
+    ctx.shadowColor = '#ff00ff';
+    ctx.shadowBlur = 15;
     ctx.beginPath();
     ctx.arc(targetX, targetY, 60, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Target inner circle
-    ctx.fillStyle = '#ff8e8e';
+    // Target middle ring
+    ctx.fillStyle = '#ff6b6b';
+    ctx.shadowBlur = 10;
     ctx.beginPath();
     ctx.arc(targetX, targetY, 40, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Target center
+    // Target center with glow
     ctx.fillStyle = '#ff5252';
+    ctx.shadowBlur = 20;
     ctx.beginPath();
     ctx.arc(targetX, targetY, 20, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Draw ball
+    // Reset shadow
+    ctx.shadowBlur = 0;
+  }
+
+  private drawRetroBall(
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    state: any
+  ): void {
     const ballX = (state.ballX / 100) * canvas.width;
     const ballY = (state.ballY / 100) * canvas.height;
 
-    ctx.fillStyle = '#4ecdc4';
+    // Ball glow
+    ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
+    ctx.shadowColor = '#00ffff';
+    ctx.shadowBlur = 20;
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, 20, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Main ball
+    ctx.fillStyle = '#00ffff';
+    ctx.shadowBlur = 10;
     ctx.beginPath();
     ctx.arc(ballX, ballY, 15, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Ball shadow
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    // Ball highlight
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.shadowBlur = 0;
     ctx.beginPath();
-    ctx.arc(ballX + 2, ballY + 2, 15, 0, 2 * Math.PI);
+    ctx.arc(ballX - 5, ballY - 5, 5, 0, 2 * Math.PI);
     ctx.fill();
+
+    // Reset shadow
+    ctx.shadowBlur = 0;
   }
 
   dropBall(): void {

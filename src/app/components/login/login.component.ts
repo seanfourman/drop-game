@@ -11,10 +11,14 @@ import { Router } from '@angular/router';
   template: `
     <div class="auth-container">
       <div class="auth-card">
-        <h2>Login</h2>
-        <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <div class="card-header">
+          <h2 class="auth-title">🎮 LOGIN 🎮</h2>
+          <div class="title-decoration"></div>
+        </div>
+
+        <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="auth-form">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email" class="form-label">EMAIL ADDRESS</label>
             <input
               type="email"
               id="email"
@@ -22,33 +26,41 @@ import { Router } from '@angular/router';
               [(ngModel)]="email"
               required
               email
-              placeholder="Enter your email"
+              placeholder="ENTER YOUR EMAIL"
+              class="form-input"
             />
+            <div class="input-glow"></div>
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password" class="form-label">PASSWORD</label>
             <input
               type="password"
               id="password"
               name="password"
               [(ngModel)]="password"
               required
-              placeholder="Enter your password"
+              placeholder="ENTER YOUR PASSWORD"
+              class="form-input"
             />
+            <div class="input-glow"></div>
           </div>
 
-          <button type="submit" [disabled]="!loginForm.valid || loading">
-            {{ loading ? 'Logging in...' : 'Login' }}
+          <button type="submit" [disabled]="!loginForm.valid || loading" class="submit-btn">
+            <span class="btn-text">{{ loading ? 'LOGGING IN...' : 'START GAME' }}</span>
+            <div class="btn-glow"></div>
           </button>
 
           <div *ngIf="error" class="error-message">
+            <span class="error-icon">⚠️</span>
             {{ error }}
           </div>
         </form>
 
         <div class="auth-links">
-          <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+          <p class="link-text">
+            NEW PLAYER? <a routerLink="/register" class="link-btn">REGISTER HERE</a>
+          </p>
         </div>
       </div>
     </div>

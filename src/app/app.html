@@ -1,9 +1,31 @@
 <div class="app-container">
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
   <header class="app-header">
-    <h1>{{ title }}</h1>
+    <div class="header-content">
+      <div class="logo-container">
+        <h1 class="arcade-logo">{{ title }}</h1>
+        <div class="logo-glow"></div>
+      </div>
+      <div class="header-decoration">
+        <div class="pixel-border"></div>
+      </div>
+    </div>
   </header>
 
   <main class="app-main">
     <router-outlet />
   </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>© 1995 ARCADE ZONE - INSERT COINS TO CONTINUE</p>
+      <div class="footer-decoration">
+        <span class="pixel">█</span>
+        <span class="pixel">█</span>
+        <span class="pixel">█</span>
+      </div>
+    </div>
+  </footer>
 </div>
