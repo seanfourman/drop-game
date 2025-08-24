@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss',
 })
 export class App {
-  title = 'Drop Target Game';
+  title = '🎮 ARCADE ZONE 🎮';
 }

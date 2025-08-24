@@ -11,10 +11,14 @@ import { Router } from '@angular/router';
   template: `
     <div class="auth-container">
       <div class="auth-card">
-        <h2>Register</h2>
-        <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <div class="card-header">
+          <h2 class="auth-title">🎮 REGISTER 🎮</h2>
+          <div class="title-decoration"></div>
+        </div>
+
+        <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="auth-form">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email" class="form-label">EMAIL ADDRESS</label>
             <input
               type="email"
               id="email"
@@ -22,12 +26,14 @@ import { Router } from '@angular/router';
               [(ngModel)]="email"
               required
               email
-              placeholder="Enter your email"
+              placeholder="ENTER YOUR EMAIL"
+              class="form-input"
             />
+            <div class="input-glow"></div>
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password" class="form-label">PASSWORD</label>
             <input
               type="password"
               id="password"
@@ -35,40 +41,50 @@ import { Router } from '@angular/router';
               [(ngModel)]="password"
               required
               minlength="6"
-              placeholder="Enter your password (min 6 characters)"
+              placeholder="ENTER YOUR PASSWORD (MIN 6 CHARS)"
+              class="form-input"
             />
+            <div class="input-glow"></div>
           </div>
 
           <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword" class="form-label">CONFIRM PASSWORD</label>
             <input
               type="password"
               id="confirmPassword"
               name="confirmPassword"
               [(ngModel)]="confirmPassword"
               required
-              placeholder="Confirm your password"
+              placeholder="CONFIRM YOUR PASSWORD"
+              class="form-input"
             />
+            <div class="input-glow"></div>
           </div>
 
           <button
             type="submit"
             [disabled]="!registerForm.valid || loading || password !== confirmPassword"
+            class="submit-btn"
           >
-            {{ loading ? 'Creating account...' : 'Register' }}
+            <span class="btn-text">{{ loading ? 'CREATING ACCOUNT...' : 'JOIN ARCADE' }}</span>
+            <div class="btn-glow"></div>
           </button>
 
           <div *ngIf="error" class="error-message">
+            <span class="error-icon">⚠️</span>
             {{ error }}
           </div>
 
           <div *ngIf="password !== confirmPassword && confirmPassword" class="error-message">
-            Passwords do not match
+            <span class="error-icon">❌</span>
+            PASSWORDS DO NOT MATCH
           </div>
         </form>
 
         <div class="auth-links">
-          <p>Already have an account? <a routerLink="/login">Login here</a></p>
+          <p class="link-text">
+            ALREADY A PLAYER? <a routerLink="/login" class="link-btn">LOGIN HERE</a>
+          </p>
         </div>
       </div>
     </div>

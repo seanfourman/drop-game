@@ -1,27 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
+
+// 90s Arcade Theme Variables
+:root {
+  --neon-pink: #ff00ff;
+  --neon-blue: #00ffff;
+  --neon-green: #00ff00;
+  --neon-yellow: #ffff00;
+  --dark-bg: #0a0a0a;
+  --darker-bg: #050505;
+  --accent-purple: #8a2be2;
+  --accent-orange: #ff8c00;
+  --text-glow: 0 0 10px currentColor;
+  --box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', monospace;
+  background: var(--dark-bg);
+  color: white;
+  overflow-x: hidden;
+}
+
 .app-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at 20% 80%, var(--accent-purple) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, var(--accent-orange) 0%, transparent 50%),
+    linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+  position: relative;
+  font-family: 'Orbitron', monospace;
+}
+
+// Scanlines effect
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+// Noise effect
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .app-header {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 255, 0.1) 0%,
+    rgba(0, 255, 255, 0.1) 50%,
+    rgba(255, 0, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(5px);
   padding: 1rem 2rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 3px solid var(--neon-pink);
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+}
 
-  h1 {
-    color: white;
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 300;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.arcade-logo {
+  color: var(--neon-pink);
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 900;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
+  animation: logoGlow 2s ease-in-out infinite alternate;
+  letter-spacing: 2px;
+}
+
+.logo-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
+  opacity: 0.3;
+  filter: blur(20px);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.header-decoration {
+  margin-top: 1rem;
+}
+
+.pixel-border {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--neon-blue) 0px,
+    var(--neon-blue) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  box-shadow: 0 0 10px var(--neon-blue);
 }
 
 .app-main {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
+
+.app-footer {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(255, 0, 255, 0.1) 50%,
+    rgba(0, 255, 255, 0.1) 100%
+  );
+  border-top: 3px solid var(--neon-blue);
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-content p {
+  color: var(--neon-blue);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  margin: 0;
+  text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.footer-decoration {
+  margin-top: 0.5rem;
+}
+
+.footer-decoration .pixel {
+  color: var(--neon-blue);
+  margin: 0 0.2rem;
+  animation: pixelBlink 1.5s ease-in-out infinite;
+}
+
+.footer-decoration .pixel:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.footer-decoration .pixel:nth-child(3) {
+  animation-delay: 1s;
+}
+
+// Animations
+@keyframes logoGlow {
+  0% {
+    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
+  }
+  100% {
+    text-shadow: 0 0 15px var(--neon-pink), 0 0 25px var(--neon-pink), 0 0 35px var(--neon-pink);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pixelBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .arcade-logo {
+    font-size: 1.8rem;
+  }
+
+  .app-main {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-logo {
+    font-size: 1.4rem;
+  }
+
+  .app-header,
+  .app-footer {
+    padding: 1rem;
+  }
 }
