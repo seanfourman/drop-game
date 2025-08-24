@@ -27,14 +27,14 @@ export class GameService {
     ballY: 10,
     isMoving: true,
     isFalling: false,
-    velocityX: 2,
+    velocityX: 1,
     velocityY: 0,
     score: 0,
     gameOver: false,
   });
 
-  private readonly GRAVITY = 0.5;
-  private readonly BALL_SPEED = 2;
+  private readonly GRAVITY = 0.1;
+  private readonly BALL_SPEED = 1;
   private readonly TARGET_CENTER_X = 50;
   private readonly TARGET_CENTER_Y = 90;
 
@@ -98,10 +98,10 @@ export class GameService {
   private calculateScore(ballX: number): number {
     const distance = Math.abs(ballX - this.TARGET_CENTER_X);
 
-    if (distance <= 5) return 100;
-    if (distance <= 10) return 75;
-    if (distance <= 15) return 50;
-    if (distance <= 20) return 25;
+    if (distance <= 1) return 100;
+    if (distance <= 2) return 75;
+    if (distance <= 5) return 50;
+    if (distance <= 8) return 25;
     return 0;
   }
 
