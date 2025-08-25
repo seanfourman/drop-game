@@ -36,7 +36,7 @@ export class GameService {
   private readonly GRAVITY = 0.1;
   private readonly BALL_SPEED = 1;
   private readonly TARGET_CENTER_X = 50;
-  private readonly TARGET_CENTER_Y = 90;
+  private readonly TARGET_CENTER_Y = 85;
 
   gameState$ = this.gameState.asObservable();
 
@@ -86,8 +86,8 @@ export class GameService {
       newState.velocityY += this.GRAVITY;
       newState.ballY += newState.velocityY;
 
-      // Check if ball hit the ground
-      if (newState.ballY >= 85) {
+      // Check if ball hit the ground - now stops exactly at target center (88.5)
+      if (newState.ballY >= this.TARGET_CENTER_Y) {
         newState.gameOver = true;
         newState.score = this.calculateScore(newState.ballX);
       }

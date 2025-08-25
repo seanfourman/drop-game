@@ -84,10 +84,8 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  // Global keyboard event listener
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    // Only handle spacebar when the game container is focused
     if (event.code === 'Space' && this.canDrop && !this.gameOver) {
       event.preventDefault(); // Prevent page scrolling
       this.dropBall();
