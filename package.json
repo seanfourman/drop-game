@@ -1,6 +1,22 @@
 {
   "name": "drop-game",
   "version": "0.0.0",
+  "description": "A skill-based reaction game where precision meets physics! Built with Angular and Firebase.",
+  "keywords": [
+    "game",
+    "angular",
+    "firebase",
+    "typescript",
+    "physics",
+    "skill-game",
+    "reaction-game"
+  ],
+  "author": "Sean Fourman",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanfourman/drop-game.git"
+  },
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
