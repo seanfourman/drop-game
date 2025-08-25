@@ -1,4 +1,4 @@
-<div class="game-container">
+<div class="game-container" (keydown)="onKeyDown($event)" tabindex="0">
   <div class="game-header">
     <div class="user-info">
       <div class="user-badge">
@@ -27,6 +27,10 @@
     </div>
 
     <div class="game-controls">
+      <div class="control-hints">
+        <p class="hint-text">💡 Press SPACEBAR to drop ball</p>
+      </div>
+
       <div class="control-section">
         <button (click)="dropBall()" [disabled]="!canDrop || gameOver" class="control-btn drop-btn">
           <span class="btn-text">{{ canDrop ? 'DROP BALL' : 'BALL DROPPED' }}</span>

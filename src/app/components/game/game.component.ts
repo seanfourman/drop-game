@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  HostListener,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -60,6 +68,8 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.initializeCanvas();
     this.startGameLoop();
+    // Focus the container to enable keyboard events
+    this.focusContainer();
   }
 
   ngOnDestroy(): void {
@@ -71,6 +81,24 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.userScoresSubscription) {
       this.userScoresSubscription.unsubscribe();
+    }
+  }
+
+  // Global keyboard event listener
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+    // Only handle spacebar when the game container is focused
+    if (event.code === 'Space' && this.canDrop && !this.gameOver) {
+      event.preventDefault(); // Prevent page scrolling
+      this.dropBall();
+    }
+  }
+
+  private focusContainer(): void {
+    // Focus the game container to enable keyboard events
+    const container = document.querySelector('.game-container') as HTMLElement;
+    if (container) {
+      container.focus();
     }
   }
 
@@ -214,6 +242,8 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
     this.gameOver = false;
     this.currentScore = 0;
     this.canDrop = true;
+    // Re-focus container after reset
+    setTimeout(() => this.focusContainer(), 100);
   }
 
   private async saveScore(): Promise<void> {
