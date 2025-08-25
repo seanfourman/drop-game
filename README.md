@@ -1,170 +1,175 @@
-# Drop Target Game 🎯
+# 🎯 Drop Target Game
 
-A fun and engaging reaction and skill game built with Angular and Firebase, where players drop a ball and try to land it as close as possible to a target for points.
+<div align="center">
 
-## 🎮 Game Features
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=firebase&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
 
-- **Interactive Ball Physics**: Ball moves side-to-side until dropped, then falls with realistic gravity
-- **Scoring System**: Points based on how close the ball lands to the target center
-- **User Authentication**: Secure login/registration with Firebase Auth
-- **Score Tracking**: Personal score history stored in Firestore
-- **Modern UI**: Beautiful, responsive design with smooth animations
+**A skill-based reaction game where precision meets physics!** 🚀
 
-## 🚀 Getting Started
+[Live Demo](#) • [Report Bug](https://github.com/seanfourman/drop-game/issues) • [Request Feature](https://github.com/seanfourman/drop-game/issues)
+
+</div>
+
+---
+
+## ✨ Features
+
+- 🎮 **Interactive Physics Engine** - Realistic ball movement and gravity simulation
+- 🎯 **Precision Scoring** - Points based on landing proximity to target
+- 🔐 **User Authentication** - Secure login/registration with Firebase
+- 📊 **Score Tracking** - Personal high scores and game history
+- 📱 **Responsive Design** - Works seamlessly on all devices
+- ⚡ **Real-time Updates** - Live score updates and game state management
+- 🎨 **Modern UI/UX** - Beautiful animations and smooth interactions
+
+## 🎮 How to Play
+
+1. **Start** - Register or login to your account
+2. **Watch** - Observe the ball moving side-to-side at the top
+3. **Time** - Click "Drop Ball" when you think it's perfectly positioned
+4. **Score** - Land closer to the target center for higher points
+5. **Compete** - Beat your high score and climb the leaderboard!
+
+### 🏆 Scoring System
+
+| Distance from Target | Points | Achievement   |
+| -------------------- | ------ | ------------- |
+| 0-5 units            | 100    | 🥇 Perfect!   |
+| 6-10 units           | 75     | 🥈 Great!     |
+| 11-15 units          | 50     | 🥉 Good!      |
+| 16-20 units          | 25     | 👍 Close!     |
+| 20+ units            | 0      | 💪 Try again! |
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Firebase project
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **npm** or **yarn** package manager
+- **Firebase** account ([Sign up](https://firebase.google.com/))
 
 ### Installation
 
-1. **Clone the repository**
+```bash
+# Clone the repository
+git clone https://github.com/seanfourman/drop-game.git
+cd drop-game
 
-   ```bash
-   git clone <repository-url>
-   cd drop-game
-   ```
+# Install dependencies
+npm install
 
-2. **Install dependencies**
+# Start development server
+npm start
+```
 
-   ```bash
-   npm install
-   ```
+The game will open at `http://localhost:4200` 🎯
 
-3. **Firebase Setup**
+## 🔥 Firebase Setup
 
-   Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+### 1. Create Firebase Project
 
-   Enable the following services:
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click "Add project" and follow the setup wizard
+3. Enable **Authentication** and **Firestore Database**
 
-   - Authentication (Email/Password)
-   - Firestore Database
+### 2. Configure Authentication
 
-   Get your Firebase configuration:
+- In Firebase Console → Authentication → Sign-in method
+- Enable **Email/Password** provider
 
-   - Go to Project Settings > General
-   - Scroll down to "Your apps" section
-   - Click the web app icon (</>)
-   - Copy the config object
+### 3. Set Up Firestore
 
-4. **Configure Firebase**
+- Go to Firestore Database → Create database
+- Start in **test mode** for development
 
-   Update the Firebase configuration in:
+### 4. Update Environment
 
-   ```
-   src/environments/environment.ts
-   src/environments/environment.prod.ts
-   ```
+Copy your Firebase config to `src/environments/environment.ts`:
 
-   Replace the placeholder values with your actual Firebase config:
+```typescript
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: 'your-api-key',
+    authDomain: 'your-project.firebaseapp.com',
+    projectId: 'your-project-id',
+    storageBucket: 'your-project.appspot.com',
+    messagingSenderId: 'your-sender-id',
+    appId: 'your-app-id',
+  },
+};
+```
 
-   ```typescript
-   export const environment = {
-     production: false,
-     firebase: {
-       apiKey: 'your-actual-api-key',
-       authDomain: 'your-project.firebaseapp.com',
-       projectId: 'your-project-id',
-       storageBucket: 'your-project.appspot.com',
-       messagingSenderId: 'your-sender-id',
-       appId: 'your-app-id',
-     },
-   };
-   ```
+### 5. Security Rules
 
-5. **Firestore Rules**
+Update Firestore rules in Firebase Console:
 
-   Set up Firestore security rules to allow authenticated users to read/write their own data:
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /scores/{document} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
+    }
+  }
+}
+```
 
-   ```javascript
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /gameResults/{document} {
-         allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
-       }
-     }
-   }
-   ```
+## 🛠️ Tech Stack
 
-6. **Run the application**
+| Technology     | Version | Purpose                  |
+| -------------- | ------- | ------------------------ |
+| **Angular**    | 20.2.0  | Frontend framework       |
+| **Firebase**   | 11.10.0 | Backend & authentication |
+| **TypeScript** | 5.9.2   | Type-safe JavaScript     |
+| **SCSS**       | -       | Advanced styling         |
+| **RxJS**       | 7.8.0   | Reactive programming     |
 
-   ```bash
-   npm start
-   ```
-
-   The app will open at `http://localhost:4200`
-
-## 🎯 How to Play
-
-1. **Register/Login**: Create an account or sign in with existing credentials
-2. **Watch the Ball**: The ball moves side-to-side at the top of the screen
-3. **Drop the Ball**: Click "Drop Ball" when you think it's positioned correctly
-4. **Score Points**: The closer the ball lands to the target center, the more points you earn
-5. **Track Progress**: View your personal score history and high score
-6. **Play Again**: Click "New Game" to try for a better score
-
-## 🏆 Scoring System
-
-- **100 points**: Ball lands within 5 units of target center
-- **75 points**: Ball lands within 10 units of target center
-- **50 points**: Ball lands within 15 units of target center
-- **25 points**: Ball lands within 20 units of target center
-- **0 points**: Ball lands more than 20 units from target center
-
-## 🛠️ Technical Stack
-
-- **Frontend**: Angular 17 (Standalone Components)
-- **Authentication**: Firebase Auth
-- **Database**: Firestore
-- **Styling**: SCSS with modern CSS features
-- **Game Engine**: Custom physics engine with Canvas API
-- **State Management**: RxJS Observables and BehaviorSubjects
-
-## 📱 Responsive Design
-
-The game is fully responsive and works on:
-
-- Desktop computers
-- Tablets
-- Mobile devices
-- Touch-enabled devices
-
-## 🔧 Development
-
-### Project Structure
+## 📁 Project Structure
 
 ```
 src/
 ├── app/
 │   ├── components/
-│   │   ├── login/          # Login component
-│   │   ├── register/       # Registration component
-│   │   └── game/           # Main game component
+│   │   ├── game/           # 🎮 Main game component
+│   │   ├── login/          # 🔐 Authentication
+│   │   └── register/       # 📝 User registration
 │   ├── services/
-│   │   ├── auth.service.ts # Authentication service
-│   │   ├── game.service.ts # Game logic service
-│   │   └── score.service.ts # Score management service
-│   └── environments/       # Firebase configuration
+│   │   ├── auth.service.ts # 🔑 User authentication
+│   │   ├── game.service.ts # 🎯 Game logic & physics
+│   │   └── score.service.ts # 📊 Score management
+│   └── environments/       # ⚙️ Configuration files
+├── styles/                 # 🎨 Global styles & themes
+└── main.ts                # 🚀 Application entry point
 ```
 
-### Build Commands
+## 🧪 Development
+
+### Available Commands
 
 ```bash
-# Development server
+# Development server with hot reload
 npm start
 
 # Production build
 npm run build
 
-# Run tests
+# Run unit tests
 npm test
 
-# Lint code
-npm run lint
+# Build and watch for changes
+npm run watch
 ```
+
+### Code Quality
+
+- **Prettier** configuration for consistent formatting
+- **ESLint** for code quality checks
+- **TypeScript** strict mode enabled
 
 ## 🚀 Deployment
 
@@ -176,29 +181,78 @@ npm run build
 
 ### Deploy to Firebase Hosting
 
-1. Install Firebase CLI: `npm install -g firebase-tools`
-2. Login: `firebase login`
-3. Initialize: `firebase init hosting`
-4. Deploy: `firebase deploy`
+```bash
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Initialize hosting
+firebase init hosting
+
+# Deploy
+firebase deploy
+```
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+We welcome contributions! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Development Guidelines
+
+- Follow Angular style guide
+- Write meaningful commit messages
+- Add tests for new features
+- Ensure responsive design works
+- Test on multiple devices
+
+## 🐛 Known Issues
+
+- None currently reported
+
+## 🔮 Roadmap
+
+- [ ] Multiplayer mode
+- [ ] Power-ups and special balls
+- [ ] Different target shapes
+- [ ] Sound effects and music
+- [ ] Mobile app version
+- [ ] Global leaderboards
+
+## 📱 Browser Support
+
+| Browser | Version | Status  |
+| ------- | ------- | ------- |
+| Chrome  | 90+     | ✅ Full |
+| Firefox | 88+     | ✅ Full |
+| Safari  | 14+     | ✅ Full |
+| Edge    | 90+     | ✅ Full |
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-## 🎉 Acknowledgments
+## 🙏 Acknowledgments
 
-- Built for the Yooz developer position task
-- Demonstrates Angular, Firebase, and game development skills
-- Features modern web development practices and responsive design
+- Built for the **Yooz** developer position
+- Inspired by classic arcade games
+- Thanks to the Angular and Firebase communities
 
 ---
 
-**Good luck and have fun playing! 🎯✨**
+<div align="center">
+
+**Made with ❤️ and ☕ by Sean Fourman**
+
+[⭐ Star this repo](https://github.com/seanfourman/drop-game) • [🐛 Report issues](https://github.com/seanfourman/drop-game/issues) • [💡 Request features](https://github.com/seanfourman/drop-game/issues)
+
+**Happy gaming! 🎯✨**
+
+</div>
