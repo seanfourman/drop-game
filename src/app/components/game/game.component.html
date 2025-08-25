@@ -1,0 +1,73 @@
+<div class="game-container">
+  <div class="game-header">
+    <div class="user-info">
+      <div class="user-badge">
+        <span class="user-label">PLAYER:</span>
+        <span class="user-email">{{ userEmail }}</span>
+      </div>
+      <button (click)="logout()" class="logout-btn">EXIT GAME</button>
+    </div>
+    <div class="score-info">
+      <div class="score-display">
+        <div class="score-label">SCORE</div>
+        <div class="score-value">{{ currentScore }}</div>
+      </div>
+      <div class="score-display">
+        <div class="score-label">HIGH SCORE</div>
+        <div class="score-value">{{ highScore }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-area">
+    <div class="game-frame">
+      <div class="frame-border">
+        <canvas #gameCanvas width="800" height="600"></canvas>
+      </div>
+    </div>
+
+    <div class="game-controls">
+      <div class="control-section">
+        <button (click)="dropBall()" [disabled]="!canDrop || gameOver" class="control-btn drop-btn">
+          <span class="btn-text">{{ canDrop ? 'DROP BALL' : 'BALL DROPPED' }}</span>
+          <div class="btn-glow"></div>
+        </button>
+
+        <button (click)="resetGame()" [disabled]="!gameOver" class="control-btn reset-btn">
+          <span class="btn-text">NEW GAME</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="gameOver" class="game-over-notification">
+    <div class="notification-content">
+      <h3 class="notification-title">GAME OVER!</h3>
+      <div class="final-score">
+        <div class="score-label">FINAL SCORE</div>
+        <div class="score-value">{{ currentScore }}</div>
+      </div>
+      <p *ngIf="currentScore > 0" class="score-message">🏆 GREAT JOB! SCORE SAVED! 🏆</p>
+      <p *ngIf="currentScore === 0" class="score-message">💀 TRY AGAIN FOR BETTER SCORE! 💀</p>
+    </div>
+  </div>
+
+  <div class="leaderboard">
+    <div class="leaderboard-header">
+      <h3>🏆 LEADERBOARD 🏆</h3>
+      <div class="leaderboard-decoration"></div>
+    </div>
+    <div class="scores-list">
+      <div *ngFor="let score of userScores; let i = index" class="score-item">
+        <div class="score-rank">#{{ i + 1 }}</div>
+        <div class="score-points">{{ score.score }} PTS</div>
+        <div class="score-date">{{ score.date | date : 'MMM dd' }}</div>
+      </div>
+      <div *ngIf="userScores.length === 0" class="no-scores">
+        <div class="no-scores-icon">🎯</div>
+        <div class="no-scores-text">NO SCORES YET! PLAY TO SEE RESULTS!</div>
+      </div>
+    </div>
+  </div>
+</div>
