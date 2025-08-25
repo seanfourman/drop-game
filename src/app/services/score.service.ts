@@ -42,25 +42,8 @@ export class ScoreService {
         snapshot.docs.map(
           (doc) =>
             ({
-              ...doc.data(),
-              date: doc.data()['date'].toDate(),
-            } as GameResult)
-        )
-      )
-    );
-  }
-
-  getTopScores(maxResults: number = 10): Observable<GameResult[]> {
-    const scoresRef = collection(this.firestore, 'gameResults');
-    const q = query(scoresRef, orderBy('score', 'desc'), limit(maxResults));
-
-    return from(getDocs(q)).pipe(
-      map((snapshot) =>
-        snapshot.docs.map(
-          (doc) =>
-            ({
-              ...doc.data(),
-              date: doc.data()['date'].toDate(),
+              ...doc.data(), // Spread the document data - score, date, userId
+              date: doc.data()['date'].toDate(), // Convert timestamp to Date object
             } as GameResult)
         )
       )

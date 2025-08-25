@@ -86,7 +86,6 @@ export class GameService {
       newState.velocityY += this.GRAVITY;
       newState.ballY += newState.velocityY;
 
-      // Check if ball hit the ground - now stops exactly at target center (88.5)
       if (newState.ballY >= this.TARGET_CENTER_Y) {
         newState.gameOver = true;
         newState.score = this.calculateScore(newState.ballX);
