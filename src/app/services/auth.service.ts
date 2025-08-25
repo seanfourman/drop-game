@@ -21,7 +21,12 @@ export class AuthService {
   async register(email: string, password: string): Promise<void> {
     try {
       await createUserWithEmailAndPassword(this.auth, email, password);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        throw new Error(
+          'This email is already registered. Please use a different email or try logging in.'
+        );
+      }
       throw error;
     }
   }
@@ -29,7 +34,10 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === 'auth/invalid-credential') {
+        throw new Error('Invalid email or password. Please check your credentials and try again.');
+      }
       throw error;
     }
   }
