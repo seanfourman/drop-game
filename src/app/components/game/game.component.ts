@@ -52,6 +52,8 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.userEmail = user.email || '';
       this.loadUserScores();
+
+      this.gameService.resetGame();
     });
 
     this.gameStateSubscription = this.gameService.gameState$.subscribe((state) => {
