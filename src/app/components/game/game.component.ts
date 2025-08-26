@@ -63,7 +63,6 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
       this.gameOver = state.gameOver;
       this.canDrop = !state.isFalling && !state.gameOver;
 
-      // Only save score if game is over, has a score, and we have a current user
       if (state.gameOver && state.score > 0 && this.currentUserId) {
         this.saveScore();
       }
