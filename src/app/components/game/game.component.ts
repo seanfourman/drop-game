@@ -30,6 +30,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   private userScoresSubscription!: Subscription;
 
   userEmail: string = '';
+  currentUserId: string = '';
   currentScore: number = 0;
   highScore: number = 0;
   gameOver: boolean = false;
@@ -51,6 +52,7 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.userEmail = user.email || '';
+      this.currentUserId = user.uid;
       this.loadUserScores();
 
       this.gameService.resetGame();
@@ -61,7 +63,8 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
       this.gameOver = state.gameOver;
       this.canDrop = !state.isFalling && !state.gameOver;
 
-      if (state.gameOver && state.score > 0) {
+      // Only save score if game is over, has a score, and we have a current user
+      if (state.gameOver && state.score > 0 && this.currentUserId) {
         this.saveScore();
       }
     });
@@ -247,10 +250,9 @@ export class GameComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private async saveScore(): Promise<void> {
-    const user = this.authService.getCurrentUser();
-    if (user && this.currentScore > 0) {
+    if (this.currentUserId && this.currentScore > 0) {
       try {
-        await this.scoreService.saveScore(this.currentScore, user.uid);
+        await this.scoreService.saveScore(this.currentScore, this.currentUserId);
         this.loadUserScores();
       } catch (error) {
         console.error('Error saving score:', error);
