@@ -39,3 +39,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase environment file
+/src/environments/environment.ts
+
